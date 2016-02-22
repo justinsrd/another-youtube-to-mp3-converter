@@ -1,0 +1,4 @@
+.DS_Store
+node_modules
+output_audio
+output_video
