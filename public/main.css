@@ -1,0 +1,50 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,200);
+
+html,
+body {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  font-family: 'Raleway', sans-serif;
+}
+
+header {
+  width: 100%;
+  padding: 1em 0;
+  color: red;
+  background-color: skyblue;
+  text-align: center;
+}
+
+section {
+  width: 50%;
+  height: 50%;
+  color: red;
+  border: 1px solid #000;
+  float: left;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+section input {
+  display: block;
+  margin: 0 auto;
+  font-family: 'Raleway', sans-serif;
+  width: 80%;
+  padding: 1em;
+}
+
+section button {
+  display: block;
+  margin: 0 auto;
+  font-family: 'Raleway', sans-serif;
+  padding: 1em;
+  background-color: skyblue;
+  border: 0;
+  blur: 0;
+}
+section .infobox {
+  height: 200px;
+  background-color: #f00;
+  color: #fff;
+}

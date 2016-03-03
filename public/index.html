@@ -2,57 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>YTDL CLIENT</title>
-  <style type="text/css">
-    p {
-      display: block;
-      font-size: 12px;
-    }
-  </style>
+  <title>YTDL2MP3 CLIENT</title>
+  <link rel="stylesheet" type="text/css" href="./reset.css">
+  <link rel="stylesheet" type="text/css" href="./main.css">
 </head>
 <body>
-  <button id="get">Get a playlist</button>
-  <button id="download">Actually download the playlist</button>
 
-  <div id="payload"></div>
+  <header>
+    <h1>YTDL2MP3</h1>
+  </header>
+
+  <section class="left">
+    <h1>Get a Single Song</h1>
+    <input id="url-single" class="url" placeholder="Single URL Here"/>
+    <button id="get-single" class="get">Get a Single</button>
+    <div id="infobox-single" class="infobox"></div>
+    <button id="download-single" class="download">Download Single</button>
+  </section>
+
+  <section class="right">
+    <h1>Get a Playlist</h1>
+    <input id="url-playlist" class="url" placeholder="Playlist URL Here">
+    <button id="get-playlist" class="get">Get a Playlist</button>
+    <div id="infobox-playlist" class="infobox"></div>
+    <button id="download-playlist" class="download">Download Playlist</button>
+  </section>
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-  <script>
-    /////////////////////////////////////////////////
-    var globalList;
-    /////////////////////////////////////////////////
-    $('#get').click(function() {
-      $.ajax({
-        type: 'GET',
-        url: '/api/playlist',
-        success: function(response) {
-          console.log(response);
-          for (var i = 0; i < response.length; i++) {
-            globalList = response;
-            //document.write('<p>'+response[i]+'</p>');
-            var el = document.createElement('p');
-            el.textContent = response[i];
-            document.getElementById('payload').appendChild(el);
-          }
-        }
-      })
-    });
+  <script src="./app.js"></script>
 
-    $('#download').click(function() {
-      for (var i = 0; i < globalList.length; i++) {
-        $.ajax({
-          type: 'POST',
-          url: '/api/tracks',
-          data: {url: 'https://youtube.com' + globalList[i]},
-          async: false,
-          success: function(response) {
-            console.log(response);
-          }
-        });
-      }
-      alert('everything finished!!!');
-    });
-    /////////////////////////////////////////////////
-  </script>
 </body>
 </html>
