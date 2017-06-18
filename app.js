@@ -1,15 +1,15 @@
 'use strict';
 
-var fs = require('fs');
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var ytdl = require('ytdl-core');
-var ffmpeg = require('fluent-ffmpeg');
-var request = require('request');
-var cheerio = require('cheerio');
-var port = process.env.PORT || 3001;
+let fs = require('fs');
+let express = require('express');
+let app = express();
+let bodyParser = require('body-parser');
+let morgan = require('morgan');
+let ytdl = require('ytdl-core');
+let ffmpeg = require('fluent-ffmpeg');
+let request = require('request');
+let cheerio = require('cheerio');
+let port = process.env.PORT || 3001;
 
 app.use(express.static('./public'));
 
@@ -24,15 +24,16 @@ app.post('/api/single', function(req, res) {
 });
 
 app.post('/api/playlist', function(req, res) {
-  var resultPlaylist = [];
-  var plUrl = req.body.url
+  let resultPlaylist = [];
+  let plUrl = req.body.url;
   request(plUrl, function (error, response, html) {
     if (!error && response.statusCode == 200) {
-      var $ = cheerio.load(html);
-      var list = $('tbody#pl-load-more-destination').find('tr .pl-video-title-link');
-      for (var i = 0; i < list.length; i++) {
+      let $ = cheerio.load(html);
+      let list = $('tbody#pl-load-more-destination').find('tr .pl-video-title a');
+      for (let i = 0; i < list.length; i++) {
         //resultPlaylist.push(list[i].attribs.href);
-        var songUrl = list[i].attribs.href;
+        // let songUrl = list[i].attribs.href;
+        let songUrl = list[i].textContent.trim();
         ytdl.getInfo(songUrl, function(err, info) {
           resultPlaylist.push({ title: info.title, url:songUrl });
           if (resultPlaylist.length === list.length) {
@@ -49,11 +50,11 @@ app.post('/api/playlist', function(req, res) {
 });
 
 app.post('/api/download', function(req, res) {
-  var startDate = new Date();
-  var url = req.body.url;
-  var stream = ytdl(url);
-  var audioOutputPath = './output_audio/';
-  var videoOutputPath = './output_video/';
+  let startDate = new Date();
+  let url = req.body.url;
+  let stream = ytdl(url);
+  let audioOutputPath = './output_audio/';
+  let videoOutputPath = './output_video/';
 
   if (!fs.existsSync(audioOutputPath)) {
       fs.mkdirSync(audioOutputPath);
@@ -63,7 +64,7 @@ app.post('/api/download', function(req, res) {
   }
 
   ytdl.getInfo(url, function(err, info) {
-    var songTitle = info.title.replace(/[\/]/g, '|');
+    let songTitle = info.title.replace(/[\/]/g, '|');
     //console.log(info);
     if(fs.existsSync(audioOutputPath+songTitle+'.mp3')) {
       res.send('Song already exists!');
@@ -73,10 +74,10 @@ app.post('/api/download', function(req, res) {
       stream.pipe(fs.createWriteStream(videoOutputPath + songTitle + '.mp4'));
       stream.on('end', function() {
         //console.log('Video finished downloading. Conversion to mp3 starting now.....');
-        var proc = new ffmpeg({source: videoOutputPath + songTitle + '.mp4'}).audioBitrate('320');
+        let proc = new ffmpeg({source: videoOutputPath + songTitle + '.mp4'}).audioBitrate('320');
         proc.save(audioOutputPath + songTitle + '.mp3');
-        var endDate = new Date();
-        var totalTime = Math.round((endDate - startDate) / 1000);
+        let endDate = new Date();
+        let totalTime = Math.round((endDate - startDate) / 1000);
         //console.log('Mp3 conversion finished!')
         res.send('Finished converting to mp3 in ' + totalTime + ' seconds!');
       });
@@ -85,13 +86,13 @@ app.post('/api/download', function(req, res) {
 });
 
 app.delete('/api/videos', function(req, res) {
-  var url = req.body.url;
+  let url = req.body.url;
   ytdl.getInfo(url, function(err, info) {
-    var songTitle = info.title.replace(/[\/]/g, '|');
+    let songTitle = info.title.replace(/[\/]/g, '|');
     fs.unlink('./output_video/' + songTitle + '.mp4');
     res.send('Song was deleted!');
   });
-})
+});
 
 app.listen(port, function() {
   console.log('\nServer is running on port ' + port + '.....\n')
