@@ -1,35 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>YTDL2MP3 CLIENT</title>
-  <link rel="stylesheet" type="text/css" href="./reset.css">
-  <link rel="stylesheet" type="text/css" href="./main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./reset.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./main.css">
 </head>
 <body>
+    <div class="root" data-ng-app="app" data-ng-controller="mainCtrl">
+        <ui-view></ui-view>
+    </div>
 
-  <header>
-    <h1>YTDL2MP3</h1>
-  </header>
-
-  <section class="left">
-    <h1>Get a Single Song</h1>
-    <input id="url-single" class="url" placeholder="Single URL Here"/>
-    <button id="get-single" class="get">Get a Single</button>
-    <div id="infobox-single" class="infobox"></div>
-    <button id="download-single" class="download">Download Single</button>
-  </section>
-
-  <section class="right">
-    <h1>Get a Playlist</h1>
-    <input id="url-playlist" class="url" placeholder="Playlist URL Here">
-    <button id="get-playlist" class="get">Get a Playlist</button>
-    <div id="infobox-playlist" class="infobox"></div>
-    <button id="download-playlist" class="download">Download Playlist</button>
-  </section>
-
-  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-  <script src="./app.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
