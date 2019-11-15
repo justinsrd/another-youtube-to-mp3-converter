@@ -10,6 +10,7 @@ app.controller('playlistCtrl', ['$scope', 'PlaylistService', function($scope, Pl
     $scope.tracks = [];
     $scope.b = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j'];
     $scope.validUrl = false;
+    $scope.switchy = false;
 
     // $scope.u = 'https://www.youtube.com/watch?v=ne43u8suEAg';
     $scope.u = 'cchlCNlJUXw';
@@ -61,6 +62,18 @@ app.controller('playlistCtrl', ['$scope', 'PlaylistService', function($scope, Pl
             console.log('id3 err', err);
         });
     }
+
+    $scope.parsey = function() {
+        const text = document.querySelector('textarea').value;
+        if (!text) {
+            return;
+        }
+        const tracks = text.split('\n');
+        const parsed = tracks.map((track) => {
+            return track.split('=')[1].split('&list=')[0];
+        });
+        console.log(parsed);
+    }
 }]);
 
 app.config(function($stateProvider, $locationProvider) {
@@ -72,6 +85,7 @@ app.config(function($stateProvider, $locationProvider) {
             controller: 'playlistCtrl'
         })
 });
+
 
 app.service('PlaylistService', ['$http', function($http) {
     return {

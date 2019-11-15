@@ -1,4 +1,23 @@
-<div class="container-fluid">
+<!--<input type="checkbox" data-ng-model="switchy">-->
+
+<div class="toggle-container">
+    <div class="toggle-button" data-ng-class="{'fff': switchy === false}" data-ng-click="switchy = false">
+        Enter
+    </div>
+    <div class="toggle-button" data-ng-class="{'fff': switchy === true}" data-ng-click="switchy = true">
+        Fill
+    </div>
+</div>
+
+
+
+
+<div data-ng-if="switchy === false">
+    <textarea placeholder="Enter URL's here" style="width: 80%; height: 60vh; margin-top: 3rem !important; margin: 0 auto; display: block;"></textarea>
+    <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button>
+</div>
+
+<div class="container-fluid" data-ng-if="switchy === true">
     <div class="row" data-ng-repeat="i in b">
 
 

@@ -52,3 +52,20 @@ input.album {
 input.genre {
   width: 8%;
 }
+
+.toggle-container {
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    display: inline-block;
+}
+.toggle-button {
+    width: 25px;
+    text-align: center;
+    display: inline-block;
+    padding: .5rem;
+}
+.fff {
+    background: #4aa1ff;
+}
