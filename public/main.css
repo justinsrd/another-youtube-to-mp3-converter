@@ -6,45 +6,49 @@ body {
   height: 100%;
   width: 100%;
   font-family: 'Raleway', sans-serif;
+  font-size: 11px !important;
 }
 
-header {
-  width: 100%;
-  padding: 1em 0;
-  color: red;
-  background-color: skyblue;
-  text-align: center;
+.container-fluid {
+  padding: 1rem;
 }
 
-section {
-  width: 50%;
-  height: 50%;
-  color: red;
-  border: 1px solid #000;
-  float: left;
-  box-sizing: border-box;
-  text-align: center;
+.row {
+  padding-top: 2rem;
 }
 
-section input {
-  display: block;
-  margin: 0 auto;
-  font-family: 'Raleway', sans-serif;
-  width: 80%;
-  padding: 1em;
+.x span {
+  width: 15px;
 }
 
-section button {
-  display: block;
-  margin: 0 auto;
-  font-family: 'Raleway', sans-serif;
-  padding: 1em;
-  background-color: skyblue;
-  border: 0;
-  blur: 0;
+.x input {
+  /*border: none;*/
+  outline: none;
+  padding: 5px;
+  /*background: transparent;*/
+  border: 1px solid #ddd !important;
+  border-radius: 10px;
+  margin-left: .25rem;
+  margin-right: .25rem;
 }
-section .infobox {
-  height: 200px;
-  background-color: #f00;
-  color: #fff;
+
+.staty {
+  display: inline-block;
+  width: 30%;
+  overflow: hidden;
+}
+input.title {
+  width: 20%;
+}
+
+input.artist {
+  width: 10%;
+}
+
+input.album {
+  width: 17%;
+}
+
+input.genre {
+  width: 8%;
 }
