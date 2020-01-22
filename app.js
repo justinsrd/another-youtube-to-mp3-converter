@@ -137,6 +137,7 @@ function processNewJob() {
 // ingests url links with YT video ids, returns titles
 // req.body.tracks = ['TjtyJnokTEA', 'SufAKh_bHsU', 'JZKaVjAYjXo']
 app.post('/api/metadata', async function(req, res) {
+	console.log('BODY:::', req.body);
 	const tracks = req.body.tracks || ['yQsykOujFCI', 'fWbeSS8G_wY'];
 	const trackInfoDict = {};
 

@@ -3,3 +3,4 @@ node_modules
 output_audio
 output_video
 .idea
+.env*

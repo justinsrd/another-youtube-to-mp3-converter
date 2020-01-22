@@ -15,26 +15,26 @@
 <div data-ng-if="switchy === false">
     <textarea placeholder="Enter URL's here" style="width: 80%; height: 60vh; margin-top: 3rem !important; margin: 0 auto; display: block;"></textarea>
     <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button>
+    <button style="margin-top: 1rem;" data-ng-click="go();">Go</button>
 </div>
 
 <div class="container-fluid" data-ng-if="switchy === true">
-    <div class="row" data-ng-repeat="i in b">
-
-
-<!--        <div style="display: flex; justify-content: space-between;">-->
-<!--            <div>Title Here</div>-->
-<!--            <div>Youtube ID: ABCDEFG</div>-->
-<!--        </div>-->
+    <div class="row" data-ng-repeat="i in res1">
         <div class="x">
-            <span>{{$index + 1}}</span>
-            <input placeholder="Title" class="title">
-            <input placeholder="Artist" class="artist">
-            <input placeholder="Album" class="album">
-            <input placeholder="Genre" class="genre">
-            <div class="staty">
-                <span>This is a Really Long Title - Inner me</span>
+            <div style="margin-bottom: 3px; margin-left: 2px;">
+                <span style="margin-right: 4px;">{{$index + 1}}</span>
+                <span style="margin-right: 4px;">{{i.snippet.title}}</span>
+                <a href="{{i.link}}" target="_blank" style="color: inherit; padding: 0;">Link</a>
             </div>
+
+            <input placeholder="Title" data-ng-model="i.title" class="title" style="margin-left: 0 !important;" data-ng-class="{'bad-check': i.checked && !i.title}">
+            <input placeholder="Artist" data-ng-model="i.artist" class="artist" data-ng-class="{'bad-check': i.checked && !i.artist}">
+            <input placeholder="Album" data-ng-model="i.album" class="album" data-ng-class="{'bad-check': i.checked && !i.album}">
+            <input placeholder="Genre" data-ng-model="i.genre" class="genre" data-ng-class="{'bad-check': i.checked && !i.genre}">
         </div>
     </div>
 
+
+    <button data-ng-click="check()">Check</button>
+    <button data-ng-click="clearAll()">Clear All</button>
 </div>
