@@ -1,5 +1,4 @@
-<!--<input type="checkbox" data-ng-model="switchy">-->
-
+<div style="text-align: center;">
 <div class="toggle-container">
     <div class="toggle-button" data-ng-class="{'fff': switchy === false}" data-ng-click="switchy = false">
         Enter
@@ -8,14 +7,14 @@
         Fill
     </div>
 </div>
-
-
-
+</div>
 
 <div data-ng-if="switchy === false">
     <textarea placeholder="Enter URL's here" style="width: 80%; height: 60vh; margin-top: 3rem !important; margin: 0 auto; display: block;"></textarea>
-    <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button>
-    <button style="margin-top: 1rem;" data-ng-click="go();">Go</button>
+    <div style="text-align: center;">
+        <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button>
+        <button style="margin-top: 1rem;" data-ng-click="go();">Go</button>
+    </div>
 </div>
 
 <div class="container-fluid" data-ng-if="switchy === true">
@@ -35,6 +34,9 @@
     </div>
 
 
-    <button data-ng-click="check()">Check</button>
-    <button data-ng-click="clearAll()">Clear All</button>
+    <div style="text-align: center; margin-top: 1.5rem; margin-bottom: 1rem;">
+        <button data-ng-click="check()">Check</button>
+        <button data-ng-click="clearAll()">Clear All</button>
+        <button data-ng-click="customDl()">Custom DL</button>
+    </div>
 </div>
