@@ -9,7 +9,7 @@ const NodeID3 = require('node-id3');
 const ffmpeg = require('fluent-ffmpeg');
 const ytdl = require('ytdl-core');
 const fetch = require('node-fetch');
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid').v4;
 const port = process.env.PORT || 3000;
 const GOOGLE_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
 const YOUTUBE_PREFIX_URL = 'https://www.youtube.com/watch?v=';
@@ -37,10 +37,8 @@ if (!process.env.YT_API_KEY) {
 }
 
 
-
-
 app.post('/jobs', function(req, res) {
-	console.log('bod', req.body);
+	console.log('Starting job:', req.body);
 	const jobId = enqueueJob(req.body.tracks);
 	res.status(200).send(jobId);
 });
@@ -71,12 +69,6 @@ function processNewJob() {
 		const tracks = job.tracks;
 		tracks.forEach((track) => {
 			track.label = track.label.replace(/[\/]/g, '|');
-			// console.log(track.label);
-			// console.log(track.link);
-			// console.log(track.artist);
-			// console.log(track.title);
-			// console.log(track.album);
-			// console.log(track.genre);
 		});
 
 		function download() {
@@ -88,12 +80,12 @@ function processNewJob() {
 
 				if (fs.existsSync(videoOutputPath + songTitle + '.mp4')) {
 					fs.unlinkSync(videoOutputPath + songTitle + '.mp4');
-					console.log('unlink ' + songTitle + '.mp4 done');
+					// console.log('unlink ' + songTitle + '.mp4 done');
 				}
 
 				if (fs.existsSync(audioOutputPath + songTitle + '.mp3')) {
 					fs.unlinkSync(audioOutputPath + songTitle + '.mp3');
-					console.log('unlink ' + songTitle + '.mp3 done');
+					// console.log('unlink ' + songTitle + '.mp3 done');
 				}
 
 				const stream = ytdl(song.link, {filter: 'audioonly'});
@@ -104,13 +96,12 @@ function processNewJob() {
 				});
 
 				stream.on('end', function() {
-					console.log('ENDEDENDEDENDED');
-					const command = ffmpeg({source: videoOutputPath + songTitle + '.mp4'}).audioBitrate(320);
+					const command = ffmpeg(videoOutputPath + songTitle + '.mp4').audioBitrate(256);
 					command.save(audioOutputPath + songTitle + '.mp3');
 					setTimeout(() => {
 						writeID3Tags(song);
 						const time = Math.round((new Date() - start) / 1000);
-						console.log(`Time: ${time} seconds! [${songTitle}]\n`);
+						console.log(`[${songTitle}] Finished! Time: ${time} seconds\n`);
 
 						job.completed++;
 						if (tracks.length === 0) {
@@ -121,7 +112,7 @@ function processNewJob() {
 						} else {
 							download();
 						}
-					}, 5000);
+					}, 100);
 
 				});
 			}
@@ -137,7 +128,7 @@ function processNewJob() {
 // ingests url links with YT video ids, returns titles
 // req.body.tracks = ['TjtyJnokTEA', 'SufAKh_bHsU', 'JZKaVjAYjXo']
 app.post('/api/metadata', async function(req, res) {
-	console.log('BODY:::', req.body);
+	console.log('Getting metadata:', req.body);
 	const tracks = req.body.tracks || ['yQsykOujFCI', 'fWbeSS8G_wY'];
 	const trackInfoDict = {};
 
@@ -170,7 +161,8 @@ function writeID3Tags(track) {
 	const tags = {
         artist: track.artist,
         title: track.title,
-		album: track.album
+		album: track.album,
+		genre: track.genre
 	};
 	NodeID3.update(tags, audioOutputPath + track.label + '.mp3');
 }

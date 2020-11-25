@@ -10,15 +10,15 @@
 </div>
 
 <div data-ng-if="switchy === false">
-    <textarea placeholder="Enter URL's here" style="width: 80%; height: 60vh; margin-top: 3rem !important; margin: 0 auto; display: block;"></textarea>
+    <textarea placeholder="Enter URL's here" style="width: 80%; height: 60vh; margin-top: 3rem !important; margin: 0 auto; display: block;" data-ng-model="$parent.urlInput"></textarea>
     <div style="text-align: center;">
-        <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button>
-        <button style="margin-top: 1rem;" data-ng-click="go();">Go</button>
+        <!-- <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button> -->
+        <button style="margin-top: 1rem;" data-ng-click="initEditForm();">Go</button>
     </div>
 </div>
 
 <div class="container-fluid" data-ng-if="switchy === true">
-    <div class="row" data-ng-repeat="i in res1">
+    <div class="row" data-ng-repeat="i in tracks">
         <div class="x">
             <div style="margin-bottom: 3px; margin-left: 2px;">
                 <span style="margin-right: 4px;">{{$index + 1}}</span>
@@ -37,6 +37,6 @@
     <div style="text-align: center; margin-top: 1.5rem; margin-bottom: 1rem;">
         <button data-ng-click="check()">Check</button>
         <button data-ng-click="clearAll()">Clear All</button>
-        <button data-ng-click="customDl()">Custom DL</button>
+        <button data-ng-click="beginDownload()">Begin Download</button>
     </div>
 </div>
