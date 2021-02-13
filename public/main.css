@@ -32,6 +32,15 @@ body {
   margin-right: .25rem;
 }
 
+.x select {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: .25rem;
+  margin-right: .25rem;
+  height: 27px;
+  outline: none;
+}
+
 .staty {
   display: inline-block;
   white-space: nowrap;
@@ -54,6 +63,10 @@ input.album {
 
 input.genre {
   width: 8%;
+}
+
+input.comment {
+  width: 14%;
 }
 
 .toggle-container {

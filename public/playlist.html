@@ -12,7 +12,6 @@
 <div data-ng-if="switchy === false">
     <textarea placeholder="Enter URL's here" style="width: 80%; height: 60vh; margin-top: 3rem !important; margin: 0 auto; display: block;" data-ng-model="$parent.urlInput"></textarea>
     <div style="text-align: center;">
-        <!-- <button style="margin-top: 2rem;" data-ng-click="parsey();">Parse</button> -->
         <button style="margin-top: 1rem;" data-ng-click="initEditForm();">Go</button>
     </div>
 </div>
@@ -29,8 +28,20 @@
             <input placeholder="Title" data-ng-model="i.title" class="title" style="margin-left: 0 !important;" data-ng-class="{'bad-check': i.checked && !i.title}">
             <input placeholder="Artist" data-ng-model="i.artist" class="artist" data-ng-class="{'bad-check': i.checked && !i.artist}">
             <input placeholder="Album" data-ng-model="i.album" class="album" data-ng-class="{'bad-check': i.checked && !i.album}">
-            <input placeholder="Genre" data-ng-model="i.genre" class="genre" data-ng-class="{'bad-check': i.checked && !i.genre}">
+            <!-- <input placeholder="Genre" data-ng-model="i.genre" class="genre" data-ng-class="{'bad-check': i.checked && !i.genre}"> -->
+            <select data-ng-model="i.genre" data-ng-class="{'bad-check': i.checked && !i.genre}">
+                <option data-ng-repeat="genre in genres">{{genre}}</option>
+            </select>
+
+
+            <input placeholder="Comment" data-ng-model="i.commentStr" class="comment">
         </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 1.5rem; margin-bottom: 1rem;">
+        <input placeholder="Bulk Update" data-ng-model="bulkUpdateValue" type="text">
+        <button data-ng-click="bulkUpdate('genre', bulkUpdateValue);">Bulk Update Genre</button>
+        <button data-ng-click="bulkUpdate('comment', bulkUpdateValue);">Bulk Update Comment</button>
     </div>
 
 

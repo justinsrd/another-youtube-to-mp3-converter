@@ -37,13 +37,13 @@ if (!process.env.YT_API_KEY) {
 }
 
 
-app.post('/jobs', function(req, res) {
+app.post('/jobs', (req, res) => {
 	console.log('Starting job:', req.body);
 	const jobId = enqueueJob(req.body.tracks);
 	res.status(200).send(jobId);
 });
 
-function enqueueJob(tracks) {
+const enqueueJob = (tracks) => {
 	if (tracks && tracks.length) {
 		const jobId = uuidv4();
 		jobs.push({
@@ -59,7 +59,7 @@ function enqueueJob(tracks) {
 	}
 }
 
-function processNewJob() {
+const processNewJob = () => {
 	const unprocessedJobs = jobs.filter((job) => {
 		return job.inProgress === false && job.complete === false;
 	});
@@ -71,7 +71,7 @@ function processNewJob() {
 			track.label = track.label.replace(/[\/]/g, '|');
 		});
 
-		function download() {
+		const download = () => {
 			const song = tracks.shift(); //todo replace with filter
 			if (song) {
 				const start = new Date();
@@ -91,14 +91,14 @@ function processNewJob() {
 				const stream = ytdl(song.link, {filter: 'audioonly'});
 				stream.pipe(fs.createWriteStream(videoOutputPath + songTitle + '.mp4'));
 
-				stream.on('error', function(error) {
+				stream.on('error', (error) => {
 					console.log('Error downloading song ' + songTitle, error);
 				});
 
-				stream.on('end', function() {
+				stream.on('end', () => {
 					const command = ffmpeg(videoOutputPath + songTitle + '.mp4').audioBitrate(256);
-					command.save(audioOutputPath + songTitle + '.mp3');
-					setTimeout(() => {
+					const saveProcess = command.save(audioOutputPath + songTitle + '.mp3');
+					saveProcess.on('end', () => {
 						writeID3Tags(song);
 						const time = Math.round((new Date() - start) / 1000);
 						console.log(`[${songTitle}] Finished! Time: ${time} seconds\n`);
@@ -112,7 +112,7 @@ function processNewJob() {
 						} else {
 							download();
 						}
-					}, 100);
+					});
 
 				});
 			}
@@ -127,7 +127,7 @@ function processNewJob() {
 
 // ingests url links with YT video ids, returns titles
 // req.body.tracks = ['TjtyJnokTEA', 'SufAKh_bHsU', 'JZKaVjAYjXo']
-app.post('/api/metadata', async function(req, res) {
+app.post('/api/metadata', async (req, res) => {
 	console.log('Getting metadata:', req.body);
 	const tracks = req.body.tracks || ['yQsykOujFCI', 'fWbeSS8G_wY'];
 	const trackInfoDict = {};
@@ -144,11 +144,11 @@ app.post('/api/metadata', async function(req, res) {
 	res.json(trackInfoDict);
 });
 
-app.get('/jobs', function(req, res) {
+app.get('/jobs', (req, res) => {
 	res.json({jobs: jobs});
 });
 
-app.get('/jobs/:jobId', function(req, res) {
+app.get('/jobs/:jobId', (req, res) => {
 	const jobId = req.params.jobId;
 	const job = jobs.filter((job) => job.uuid === jobId);
 	res.json({job: job ? job[0] : null});
@@ -157,14 +157,17 @@ app.get('/jobs/:jobId', function(req, res) {
 
 
 
-function writeID3Tags(track) {
+const writeID3Tags = (track) => {
 	const tags = {
         artist: track.artist,
         title: track.title,
 		album: track.album,
-		genre: track.genre
+		genre: track.genre,
+		comment: track.comment
 	};
-	NodeID3.update(tags, audioOutputPath + track.label + '.mp3');
+	console.log('tags.comment', tags.comment);
+	const path = audioOutputPath + track.label + '.mp3';
+	NodeID3.update(tags, path);
 }
 
 //------------------- POST /metadata

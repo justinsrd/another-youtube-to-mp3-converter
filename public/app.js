@@ -11,6 +11,22 @@ app.controller('playlistCtrl', ['$scope', 'PlaylistService', function($scope, Pl
     $scope.switchy = false;
     $scope.urlInput = '';
     let trackIds = [];
+    $scope.genres = [
+        'Alternative',
+        'Chill',
+        'Country',
+        'Dubstep',
+        'EDM',
+        'Hip-Hop',
+        'Indie',
+        'Lifted',
+        'New Indie',
+        'Other',
+        'Pop',
+        'Rock',
+        'Soundtrack',
+        'Techno'
+    ];
 
     // $scope.getPlaylistInfo = (url) => {
     //     const delimiter = '?list=';
@@ -39,6 +55,7 @@ app.controller('playlistCtrl', ['$scope', 'PlaylistService', function($scope, Pl
     $scope.initEditForm = function() {
         validateUrls();
         PlaylistService.getMetaData(trackIds).then((res) => {
+            console.log('resdata', res.data);
             var arr = [];
             for (var videoId in res.data) {
                 var videoObj = res.data[videoId];
@@ -58,14 +75,22 @@ app.controller('playlistCtrl', ['$scope', 'PlaylistService', function($scope, Pl
 
     $scope.beginDownload = function() {
         PlaylistService.startDownload($scope.tracks.map((track) => {
-            return {
+            const trackInfo =  {
                 label: `${track.artist} - ${track.title}`,
                 artist: track.artist,
                 title: track.title,
                 album: track.album,
                 genre: track.genre,
                 link: track.link
+            };
+            if (track.commentStr) {
+                trackInfo.comment = {
+                    language: 'eng',
+                    shortText: undefined,
+                    text: track.commentStr
+                }
             }
+            return trackInfo;
         }));
     }
 
@@ -97,6 +122,20 @@ app.controller('playlistCtrl', ['$scope', 'PlaylistService', function($scope, Pl
     $scope.clearAll = function() {
         for (let i = 0; i < $scope.tracks.length; i++) {
             $scope.tracks[i].checked = false;
+        }
+    }
+
+    $scope.bulkUpdate = function(property, value) {
+        if (value !== undefined) {
+            if (property === 'genre') {
+                $scope.tracks.forEach((track) => {
+                    track.genre = value;
+                });
+            } else if (property === 'comment') {
+                $scope.tracks.forEach((track) => {
+                    track.commentStr = value;
+                });
+            }
         }
     }
 }]);
